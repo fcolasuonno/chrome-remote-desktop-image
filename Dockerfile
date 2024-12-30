@@ -28,3 +28,4 @@ RUN chown "abc:abc" .config/chrome-remote-desktop
 RUN chmod a+rx .config/chrome-remote-desktop
 RUN touch .config/chrome-remote-desktop/host.json
 RUN echo "/usr/bin/openbox-session" > .chrome-remote-desktop-session
+CMD sleep infinity & wait
