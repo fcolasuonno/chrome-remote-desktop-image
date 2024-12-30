@@ -16,6 +16,9 @@ ENV PIN=123456
 ENV CODE=4/xxx
 ENV HOSTNAME=RemoteDesktop
 # ---------------------------------------------------------- 
+
+COPY root/ /
+
 # ADD USER TO THE SPECIFIED GROUPS
 
 RUN usermod -aG chrome-remote-desktop abc
@@ -26,13 +29,3 @@ RUN chmod a+rx .config/chrome-remote-desktop
 RUN touch .config/chrome-remote-desktop/host.json
 RUN echo "/usr/bin/pulseaudio --start" > .chrome-remote-desktop-session
 RUN echo "openbox-session" >> .chrome-remote-desktop-session
-CMD \
-   DISPLAY= /opt/google/chrome-remote-desktop/start-host --user-name=abc --code=$CODE --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$HOSTNAME --pin=$PIN ; \
-   HOST_HASH=$(echo -n $HOSTNAME | md5sum | cut -c -32) && \
-   FILENAME=.config/chrome-remote-desktop/host#${HOST_HASH}.json && echo $FILENAME && \
-   cp .config/chrome-remote-desktop/host#*.json $FILENAME ; \
-   chown "abc:abc" -R .config/chrome-remote-desktop && \
-   sudo service chrome-remote-desktop stop && \
-   sudo service chrome-remote-desktop start && \
-   echo $HOSTNAME && \
-   sleep infinity & wait

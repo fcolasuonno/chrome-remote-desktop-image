@@ -1,0 +1,8 @@
+DISPLAY= /opt/google/chrome-remote-desktop/start-host --user-name=abc --code=$CODE --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$HOSTNAME --pin=$PIN ; \
+HOST_HASH=$(echo -n $HOSTNAME | md5sum | cut -c -32) && \
+FILENAME=.config/chrome-remote-desktop/host#${HOST_HASH}.json && echo $FILENAME && \
+cp .config/chrome-remote-desktop/host#*.json $FILENAME ; \
+chown "abc:abc" -R .config/chrome-remote-desktop && \
+sudo service chrome-remote-desktop stop && \
+sudo service chrome-remote-desktop start && \
+echo $HOSTNAME
